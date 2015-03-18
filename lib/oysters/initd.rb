@@ -1,4 +1,5 @@
 require 'oysters'
+require 'erb'
 
 Oysters.with_configuration do
 
@@ -12,8 +13,9 @@ Oysters.with_configuration do
         CapistranoUnicorn::Utility.send(:alias_method, :old_try_unicorn_user, :try_unicorn_user)
         CapistranoUnicorn::Utility.send(:define_method, :try_unicorn_user, Proc.new { su_command })
         run "mkdir -p #{shared_path}/config"
-        location = fetch(:template_dir, 'config/templates') + "/#{application}_unicorn_init.sh.erb"
+        location = File.expand_path('../templates/unicorn_init.sh.erb', __FILE__)
         config = ERB.new(File.read(location))
+        puts config.result(binding)
         text_config = config.result(binding)
         text_config.gsub!(/(#{su_command}) (.*);/,'\1 "\2";')
         put text_config, "#{shared_path}/config/#{application}_unicorn_init.sh"
@@ -87,7 +89,7 @@ Oysters.with_configuration do
       desc 'Generate kewatcher init.d script'
       task :setup, roles: :app do
         run "mkdir -p #{shared_path}/config"
-        location = fetch(:template_dir, 'config/templates') + "/#{application}_kewatcher_init.sh.erb"
+        location = File.expand_path('../templates/kewatcher_init.sh.erb', __FILE__)
         config = ERB.new(File.read(location))
         put config.result(binding), "#{shared_path}/config/#{application}_kewatcher_init.sh"
       end

@@ -1,0 +1,42 @@
+#!/bin/bash
+# chkconfig: 345 99 55
+# description: script to start <%= application %> unicorn
+# /etc/init.d/<%= application %>_unicorn
+
+start() {
+  <%= start_unicorn %>
+}
+
+stop() {
+  <%= kill_unicorn('QUIT') %>
+  sleep 5
+  <%= kill_unicorn('KILL') %>
+}
+
+restart_unicorn() {
+  <%= duplicate_unicorn %>
+  sleep <%= unicorn_restart_sleep_time %> # in order to wait for the (old) pidfile to show up
+  if <%= old_unicorn_is_running? %>; then
+    <%= unicorn_send_signal('QUIT', get_old_unicorn_pid) %>;
+  fi
+}
+
+case "$1" in
+  start)
+    echo "calling ${1} on <%= application %> Unicorn ... "
+    start
+    ;;
+  stop)
+    echo "calling ${1} on <%= application %> Unicorn ... "
+    stop
+    ;;
+  restart)
+    echo "calling ${1} on <%= application %> Unicorn ... "
+    restart_unicorn
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?
