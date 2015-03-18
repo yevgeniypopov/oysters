@@ -15,7 +15,6 @@ Oysters.with_configuration do
         run "mkdir -p #{shared_path}/config"
         location = File.expand_path('../templates/unicorn_init.sh.erb', __FILE__)
         config = ERB.new(File.read(location))
-        puts config.result(binding)
         text_config = config.result(binding)
         text_config.gsub!(/(#{su_command}) (.*);/,'\1 "\2";')
         put text_config, "#{shared_path}/config/#{application}_unicorn_init.sh"
