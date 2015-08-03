@@ -14,6 +14,7 @@ Oysters.with_configuration do
             log_path << Pathname.new(shared_path).join('log', log).to_s
           end
         end
+        log_path << Pathname.new(shared_path).join('log', 'skylight.log').to_s if defined?(Skylight)
 
         conf_path = "/etc/logrotate.d/#{application}_logs"
         log_path  = log_path.join(' ')
