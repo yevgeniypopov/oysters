@@ -10,7 +10,13 @@ Oysters.with_configuration do
         log_path = [ Pathname.new(shared_path).join('log', "#{rails_env}.log").to_s ]
 
         if application == 'oiv-ui'
-          %W(#{rails_env}_delayed_job.log #{rails_env}_security_audit.log unicorn_#{rails_env}.stderr.log).each do |log|
+          %W(#{rails_env}_delayed_job.log #{rails_env}_security_audit.log unicorn_#{rails_env}.stderr.log skylight.log).each do |log|
+            log_path << Pathname.new(shared_path).join('log', log).to_s
+          end
+        end
+
+        if application == 'oiv-api'
+          %W(skylight.log).each do |log|
             log_path << Pathname.new(shared_path).join('log', log).to_s
           end
         end
@@ -23,7 +29,6 @@ Oysters.with_configuration do
 
         put config.result(binding), tmp_file
         sudo "mv #{tmp_file} #{conf_path}"
-
         sudo "logrotate #{conf_path}"
       end
     end
