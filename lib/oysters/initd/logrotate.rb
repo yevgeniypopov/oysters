@@ -14,7 +14,13 @@ Oysters.with_configuration do
             log_path << Pathname.new(shared_path).join('log', log).to_s
           end
         end
-        log_path << Pathname.new(shared_path).join('log', 'skylight.log').to_s if defined?(Skylight)
+        if defined?(Skylight) && defined?(Rails)
+          if Rails.configuration.skylight.logger.is_a?(Logger) # logger path manually re-defined
+            log_path << Rails.configuration.skylight.logger.instance_variable_get(:@logdev).filename
+          else
+            log_path << Pathname.new(shared_path).join('log', 'skylight.log').to_s
+          end
+        end
 
         conf_path = "/etc/logrotate.d/#{application}_logs"
         log_path  = log_path.join(' ')
