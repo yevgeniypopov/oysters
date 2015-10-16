@@ -1,0 +1,20 @@
+#!/bin/bash
+# chkconfig: 345 99 55
+# description: script to start <%= application %> delayed_job
+# /etc/init.d/<%= application %>_delayed_job
+
+delayed_command() {
+  su - <%= user %> -c "cd <%= current_path %>; RAILS_ENV=<%= rails_env %> <%= fetch(:bundle_cmd, 'bundle') %> exec <%= delayed_job_command %> $1"
+}
+
+case "$1" in
+  start|stop|restart|status)
+    echo "calling ${1} on <%= application %> Delayed Job ... "
+    delayed_command "${1}"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+esac
+
+exit $?
