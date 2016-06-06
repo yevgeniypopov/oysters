@@ -1,0 +1,27 @@
+# /etc/sysconfig/deployed_application
+# Configuration file for application services: Unicorn, KEWatcher and Resque Scheduler.
+
+#Main params
+RAILS_ENV=<%= rails_env %>
+APP_USER=<%= user %>
+
+ROOT_PATH=<%= current_path %>
+SHARED_PATH=<%= shared_path %>
+
+#Scheduler params
+SCHEDULER_LOGFILE=$SHARED_PATH/log/iris_staging_scheduler.log
+SCHEDULER_PIDFILE=$SHARED_PATH/pids/scheduler.pid
+DYNAMIC_SCHEDULE=<%= dynamic_schedule %>
+BACKGROUND=<%= scheduler_background %>
+VERBOSE=<%= scheduler_verbose %>
+
+#KEWatcher params
+KEWATCHER_LOGFILE=$SHARED_PATH/log/iris_staging_kewatcher.log
+KEWATCHER_PIDFILE=$SHARED_PATH/pids/kewatcher.pid
+KEWATCHER_REDIS_CONFIG=<%= kewacther_redis_config %>
+KEWATCHER_MAX_WORKERS=<%= kewatcher_max_workers %>
+
+#Unicorn params
+UNICORN_CONFIG=<%= unicorn_config_path %>
+UNICORN_PIDFILE=$SHARED_PATH/pids/unicorn.pid
+BUNDLE_GEMFILE=$ROOT_PATH/Gemfile
