@@ -16,18 +16,17 @@ Oysters.with_configuration do
             config = File.read(File.expand_path("../scripts/#{program}_initd_script.sh", __FILE__))
             put config, tmp_config_path, :shell => :bash
 
-            sudo "cp #{tmp_config_path} /etc/init.d/#{application}_#{program};\
-                sudo chmod +x /etc/init.d/#{application}_#{program};\
-                sudo chkconfig --add #{application}_#{program}", pty: true, :shell => :bash
-
+            run "sudo cp #{tmp_config_path} /etc/init.d/#{application}_#{program}", pty: true, :shell => :bash
+            run "sudo chmod +x /etc/init.d/#{application}_#{program}", pty: true, :shell => :bash
+            run "sudo chkconfig --add #{application}_#{program}", pty: true, :shell => :bash
             run "rm -f #{tmp_config_path}", :shell => :bash
           end
 
           #Run this task as a sudo user!
           desc "Remove #{program} init.d script"
           task :uninstall, roles: :app do
-            sudo "chkconfig --del #{application}_#{program};\
-                sudo rm -f /etc/init.d/#{application}_#{program}", pty: true, :shell => :bash
+            run "sudo chkconfig --del #{application}_#{program}", pty: true, :shell => :bash
+            run "sudo rm -f /etc/init.d/#{application}_#{program}", pty: true, :shell => :bash
           end
         end
       end
@@ -44,14 +43,14 @@ Oysters.with_configuration do
           config = ERB.new(File.read(location))
           put config.result(binding), tmp_config_path, :shell => :bash
 
-          sudo "cp #{tmp_config_path} /etc/sysconfig/deployed_application", pty: true, :shell => :bash
+          run "sudo cp #{tmp_config_path} /etc/sysconfig/deployed_application", pty: true, :shell => :bash
           run "rm -f #{tmp_config_path}", :shell => :bash
         end
 
         #Run this task as a sudo user!
         desc 'Remove sysconfig'
         task :uninstall, roles: :app do
-          sudo "sudo rm -f /etc/sysconfig/deployed_application", pty: true, :shell => :bash
+          run "sudo rm -f /etc/sysconfig/deployed_application", pty: true, :shell => :bash
         end
       end
 
