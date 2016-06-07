@@ -45,9 +45,8 @@ stop() {
   else
     RETVAL=1
   fi
-    sleep 10
+
   if [ $RETVAL -eq 0 ]; then
-    sleep 10
     echo_success
     rm -f $KEWATCHER_PIDFILE
   else
