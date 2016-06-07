@@ -1,12 +1,12 @@
 #!/bin/sh
 # chkconfig: 345 99 55
 # description: script to start resque scheduler
-# /etc/init.d/resque_scheduler
+# /etc/init.d/[application]_resque_scheduler
 
-#source functions library
+# source functions library
 . /etc/rc.d/init.d/functions
 
-#source scheduler params
+# source application params
 . /etc/sysconfig/deployed_application
 
 start() {
