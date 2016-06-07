@@ -15,15 +15,17 @@ start() {
 
   echo "Starting KEWatcher"
   if [ -e $KEWATCHER_PIDFILE ] && kill -0 `cat $KEWATCHER_PIDFILE` > /dev/null 2>&1; then
+    echo "KEWatcher is already Running"
     echo_success
-    return
+    return 0
   fi
 
-  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -vv RAILS_ENV=$RAILS_ENV"
+  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -vv"
 
-  su - $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
-
+  su $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
   RETVAL=$?
+
+  sleep 5
 
   if [ $RETVAL -eq 0 ]; then
     echo_success
@@ -45,9 +47,8 @@ stop() {
   else
     RETVAL=1
   fi
-    sleep 10
+
   if [ $RETVAL -eq 0 ]; then
-    sleep 10
     echo_success
     rm -f $KEWATCHER_PIDFILE
   else
