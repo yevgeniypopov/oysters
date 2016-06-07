@@ -19,7 +19,7 @@ start() {
     return
   fi
 
-  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -v RAILS_ENV=$RAILS_ENV"
+  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -vv RAILS_ENV=$RAILS_ENV"
 
   su - $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
 
@@ -44,6 +44,7 @@ stop() {
   fi
 
   if [ $RETVAL -eq 0 ]; then
+    sleep 10
     echo_success
     rm -f $KEWATCHER_PIDFILE
   else
@@ -58,7 +59,6 @@ case "$1" in
   restart)
     echo "Restarting Resque KEWatcher ... "
     stop
-    sleep 2
     start
     ;;
   *)
