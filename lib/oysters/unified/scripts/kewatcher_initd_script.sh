@@ -13,18 +13,16 @@ start() {
   local program
   local options
 
-  cd $ROOT_PATH
-
   echo "Starting KEWatcher"
-  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -v"
-  program="source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE"
-
-  if [[ $APP_USER == $USER ]]
-  then
-    daemon --pidfile=$KEWATCHER_PIDFILE $program &
-  else
-    daemon --user $APP_USER --pidfile=$KEWATCHER_PIDFILE $program &
+  if [ -e $KEWATCHER_PIDFILE ] && kill -0 `cat $KEWATCHER_PIDFILE` > /dev/null 2>&1; then
+    echo_success
+    return
   fi
+
+  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -v RAILS_ENV=$RAILS_ENV"
+
+  su - $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
+
   RETVAL=$?
 
   if [ $RETVAL -eq 0 ]; then
