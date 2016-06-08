@@ -22,8 +22,10 @@ start() {
 
   options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -vv"
 
-  su $APP_USER -c "cd $ROOT_PATH && source /home/$APP_USER/.bash_profile && RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE && sleep 5 &"
+  su $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
   RETVAL=$?
+
+  sleep 5
 
   if [ $RETVAL -eq 0 ]; then
     echo_success
