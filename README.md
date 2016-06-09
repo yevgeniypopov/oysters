@@ -63,6 +63,26 @@ You can install sysconfig and all init.d scripts simultaneously via 'install_all
 ```
 cap <environment> oysters:unified:initd:install_all
 ```
+init.d scripts use ~/.bash_profile to load rvm. File example:
+```
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+```
+
+NOTE: You need sudo access to install init.d scripts and sysconfig
+
 ### Managing daemons
 
 You can manage daemons using next tasks:
@@ -89,6 +109,9 @@ All scripts and sysconfig:
 ```
 cap <environment> oysters:unified:initd:uninstall_all
 ```
+
+NOTE: You need sudo access to uninstall init.d scripts and sysconfig
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
