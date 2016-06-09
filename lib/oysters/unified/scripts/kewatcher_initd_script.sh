@@ -20,7 +20,7 @@ start() {
     return 0
   fi
 
-  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE -vv"
+  options="-m $KEWATCHER_MAX_WORKERS -c $KEWATCHER_REDIS_CONFIG -p $KEWATCHER_PIDFILE $KEWATCHER_VERBOSE"
 
   su $APP_USER -c "cd $ROOT_PATH; source /home/$APP_USER/.bash_profile; RAILS_ENV=$RAILS_ENV nohup bundle exec $ROOT_PATH/bin/kewatcher $options 2>&1 >> $KEWATCHER_LOGFILE &"
   RETVAL=$?

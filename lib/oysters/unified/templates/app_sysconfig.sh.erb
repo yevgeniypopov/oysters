@@ -2,24 +2,25 @@
 # Configuration file for application services: Unicorn, KEWatcher and Resque Scheduler.
 
 #Main params
-RAILS_ENV=<%= rails_env %>
-APP_USER=<%= app_user %>
+RAILS_ENV=<%= rails_env %>                                      # (development, staging, production)
+APP_USER=<%= app_user %>                                        # user that will run daemons
 
-ROOT_PATH=<%= current_path %>
-SHARED_PATH=<%= shared_path %>
+ROOT_PATH=<%= current_path %>                                   # path to app directory
+SHARED_PATH=<%= shared_path %>                                  # path to shared directory
 
 #Scheduler params
 SCHEDULER_LOGFILE=$SHARED_PATH/log/iris_staging_scheduler.log
 SCHEDULER_PIDFILE=$SHARED_PATH/pids/scheduler.pid
-DYNAMIC_SCHEDULE=<%= dynamic_schedule %>
-BACKGROUND=<%= scheduler_background %>
-VERBOSE=<%= scheduler_verbose %>
+DYNAMIC_SCHEDULE=<%= dynamic_schedule %>                        # (true,false)
+BACKGROUND=<%= scheduler_background %>                          # (true,false)
+SCHEDULER_VERBOSE=<%= scheduler_verbose %>                      # (1,0)
 
 #KEWatcher params
 KEWATCHER_LOGFILE=$SHARED_PATH/log/iris_staging_kewatcher.log
 KEWATCHER_PIDFILE=$SHARED_PATH/pids/kewatcher.pid
-KEWATCHER_REDIS_CONFIG=<%= kewacther_redis_config %>
-KEWATCHER_MAX_WORKERS=<%= kewatcher_max_workers %>
+KEWATCHER_REDIS_CONFIG=<%= kewacther_redis_config %>            # path to redis config
+KEWATCHER_MAX_WORKERS=<%= kewatcher_max_workers %>              # max number of workers (integer)
+KEWATCHER_VERBOSE=<%= kewatcher_verbose %>                      # log verbosity (-v,-vv)
 
 #Unicorn params
 UNICORN_CONFIG=<%= unicorn_config_path %>
