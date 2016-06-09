@@ -63,7 +63,7 @@ You can install sysconfig and all init.d scripts simultaneously via 'install_all
 ```
 cap <environment> oysters:unified:initd:install_all
 ```
-init.d scripts use ~/home/<user>/.bash_profile to load rvm:
+init.d scripts use ~/.bash_profile to load rvm. File example:
 ```
 # .bash_profile
 
