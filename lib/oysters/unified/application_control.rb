@@ -12,7 +12,7 @@ Oysters.with_configuration do
         [:stop, :start, :restart].each do |action|
           desc "#{action.to_s.capitalize} #{program.to_s.capitalize}"
           task action do
-            run "/etc/init.d/iris_#{program} #{action.to_s}", pty: true
+            run "/etc/init.d/#{application}_#{program} #{action.to_s}", pty: true
           end
         end
       end
