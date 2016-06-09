@@ -2,7 +2,9 @@
 Oysters is a set of capistrano tasks that allow users to manage application daemons like Resque Scheduler, KEWatcher(resque-sliders), Unicorn.
 
 It allows to:
+
 1. Install/Uninstall init.d scripts for daemons.
+
 2. Start/Stop/Restart daemons  
 
 Oysters is compatible with Capistrano 2.x.
@@ -33,7 +35,7 @@ Require 'oysters/unified_oysters' in your deploy.rb:
 ```
 ### init.d scripts installation
 
-1. Set all needed configuration variables in your capistrano environment configs:
+Set all needed configuration variables in your capistrano environment configs. See 'lib/oysters/unified/templates/app_sysconfig.sh.erb' for a list of all variables.:
 
 ```
     set :app_user, 'svc_iris'
@@ -46,15 +48,12 @@ Require 'oysters/unified_oysters' in your deploy.rb:
     set :unicorn_config_path, "#{current_path}/config/unicorn/unicorn.rb"
 ```
 
-See 'lib/oysters/unified/templates/app_sysconfig.sh.erb' for a list of all variables.
-
-2. Install application sysconfig, used by init.d scripts:
+Install application sysconfig, used by init.d scripts. File '/etc/sysconfig/deployed_application' will be created:
 ```
     cap <environment> oysters:unified:initd:sysconfig:install
 ```
-'/etc/sysconfig/deployed_application' will be created
 
-3. Install necessary init.d scripts:
+Install necessary init.d scripts:
 ```
     cap <environment> oysters:unified:initd:kewatcher:install
     cap <environment> oysters:unified:initd:resque_scheduler:install
@@ -82,14 +81,14 @@ Now you can manage daemons using next tasks:
 ```
 ### Removing scripts
 
-1. Individual init.d script:
+Individual init.d script:
 ```
     cap <environment> oysters:unified:initd:unicorn:uninstall
 ```
-2. All scripts and sysconfig:
-
+All scripts and sysconfig:
+```
     cap <environment> oysters:unified:initd:uninstall_all
-
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
