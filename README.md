@@ -59,13 +59,13 @@ cap <environment> oysters:unified:initd:kewatcher:install
 cap <environment> oysters:unified:initd:resque_scheduler:install
 cap <environment> oysters:unified:initd:unicorn:install
 ```
-You can install sysconfig and all init.d scripts using 'install_all' task:
+You can install sysconfig and all init.d scripts simultaneously via 'install_all' task:
 ```
 cap <environment> oysters:unified:initd:install_all
 ```
 ### Managing daemons
 
-Now you can manage daemons using next tasks:
+You can manage daemons using next tasks:
 ```
 cap <environment> oysters:unified:kewatcher:restart
 cap <environment> oysters:unified:kewatcher:start
