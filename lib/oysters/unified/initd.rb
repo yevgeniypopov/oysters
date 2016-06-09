@@ -4,6 +4,10 @@ require 'erb'
 Oysters.with_configuration do
   namespace :unified do
     namespace :initd do
+      # This tasks install/uninstall initd scripts for:
+      # - KEWatcher from resque-sliders gem
+      # - Resque Scheduler
+      # - Unicorn
       [:kewatcher, :resque_scheduler, :unicorn].each do |program|
         namespace "#{program}" do
           #Run this task as a sudo user!
@@ -31,6 +35,10 @@ Oysters.with_configuration do
         end
       end
 
+      # This tasks install/uninstall sysconfig that contains configuration information for:
+      # - KEWatcher from resque-sliders gem
+      # - Resque Scheduler
+      # - Unicorn
       namespace :sysconfig do
         #Run this task as a sudo user!
         desc 'Generate sysconfig used by init.d scripts and put it into /etc/sysconfig'
