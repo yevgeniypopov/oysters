@@ -2,7 +2,6 @@
 # Configuration file for application services: Unicorn, KEWatcher and Resque Scheduler.
 
 #Main params
-APPLICATION = <%= application %>
 RAILS_ENV=<%= rails_env %>                                      # (development, staging, production)
 APP_USER=<%= app_user %>                                        # user that will run daemons
 
@@ -10,14 +9,14 @@ ROOT_PATH=<%= current_path %>                                   # path to app di
 SHARED_PATH=<%= shared_path %>                                  # path to shared directory
 
 #Scheduler params
-SCHEDULER_LOGFILE=$SHARED_PATH/log/$APPLICATION\_staging_scheduler.log
+SCHEDULER_LOGFILE=$SHARED_PATH/log/resque_scheduler.log
 SCHEDULER_PIDFILE=$SHARED_PATH/pids/scheduler.pid
 DYNAMIC_SCHEDULE=<%= dynamic_schedule %>                        # (true,false)
 BACKGROUND=<%= scheduler_background %>                          # (true,false)
 SCHEDULER_VERBOSE=<%= scheduler_verbose %>                      # (1,0)
 
 #KEWatcher params
-KEWATCHER_LOGFILE=$SHARED_PATH/log/$APPLICATION\_staging_kewatcher.log
+KEWATCHER_LOGFILE=$SHARED_PATH/log/kewatcher.log
 KEWATCHER_PIDFILE=$SHARED_PATH/pids/kewatcher.pid
 KEWATCHER_REDIS_CONFIG=<%= kewacther_redis_config %>            # path to redis config
 KEWATCHER_MAX_WORKERS=<%= kewatcher_max_workers %>              # max number of workers (integer)
