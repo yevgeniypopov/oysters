@@ -42,11 +42,12 @@ stop() {
     kill -s QUIT $(cat $KEWATCHER_PIDFILE)
     RETVAL=$?
     sleep 10
-    echo "Killing stuck workers"
-    kill -s KILL `pgrep -xf "[r]esque-[0-9]+.*" | xargs` > /dev/null 2>&1
   else
     RETVAL=1
   fi
+
+  echo "Killing stuck workers"
+  kill -s KILL `pgrep -xf "[r]esque-[0-9]+.*" | xargs` > /dev/null 2>&1
 
   if [ $RETVAL -eq 0 ]; then
     echo_success
